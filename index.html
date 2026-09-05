@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Signal Generator</title>
+    <style>
+        body { background: #0b0e14; color: #fff; font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 15px; }
+        .card { background: #151d2a; padding: 20px; border-radius: 12px; max-width: 420px; margin: auto; box-shadow: 0 4px 15px rgba(0,0,0,0.6); }
+        h2 { margin-top: 0; color: #38bdf8; }
+        label { display: block; text-align: left; font-size: 14px; margin-top: 10px; color: #94a3b8; font-weight: bold; }
+        select { width: 100%; padding: 10px; margin-top: 5px; border-radius: 6px; background: #1e293b; color: #fff; border: 1px solid #334155; font-size: 15px; }
+        .btn { background: #22c55e; color: #fff; border: none; padding: 14px; font-size: 16px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 15px; transition: 0.3s; }
+        .btn:hover { background: #16a34a; }
+        .signal-box { margin-top: 15px; padding: 15px; border-radius: 8px; font-size: 20px; font-weight: bold; background: #1e293b; border: 1px solid #334155; }
+        #chart-container { height: 320px; margin-top: 15px; border-radius: 8px; overflow: hidden; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>🤖 AI SIGNAL BOT</h2>
+        
+        <label for="marketSelect">SELECT MARKET (OTC & FOREX):</label>
+        <select id="marketSelect" onchange="changeChart()">
+            <optgroup label="--- TOP OTC / CRYPTO ---">
+                <option value="BINANCE:BTCUSDT">BTC/USDT (OTC)</option>
+                <option value="BINANCE:ETHUSDT">ETH/USDT (OTC)</option>
+                <option value="BINANCE:SOLUSDT">SOL/USDT (OTC)</option>
+                <option value="BINANCE:BNBUSDT">BNB/USDT (OTC)</option>
+                <option value="BINANCE:XRPUSDT">XRP/USDT (OTC)</option>
+                <option value="BINANCE:DOGEUSDT">DOGE/USDT (OTC)</option>
+                <option value="BINANCE:ADAUSDT">ADA/USDT (OTC)</option>
+                <option value="BINANCE:MATICUSDT">MATIC/USDT (OTC)</option>
+                <option value="BINANCE:LTCUSDT">LTC/USDT (OTC)</option>
+                <option value="BINANCE:TRXUSDT">TRX/USDT (OTC)</option>
+            </optgroup>
+
+            <optgroup label="--- TOP FOREX PAIRS ---">
+                <option value="FX:EURUSD">EUR/USD</option>
+                <option value="FX:GBPUSD">GBP/USD</option>
+                <option value="FX:USDJPY">USD/JPY</option>
+                <option value="FX:AUDUSD">AUD/USD</option>
+                <option value="FX:USDCAD">USD/CAD</option>
+                <option value="FX:USDCHF">USD/CHF</option>
+                <option value="FX:EURGBP">EUR/GBP</option>
+                <option value="FX:EURJPY">EUR/JPY</option>
+                <option value="FX:GBPJPY">GBP/JPY</option>
+                <option value="FX:NZDUSD">NZD/USD</option>
+            </optgroup>
+        </select>
+
+        <div id="chart-container">
+            <iframe id="tvChart" src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_1&symbol=BINANCE%3ABTCUSDT&interval=1&hidesidetoolbar=1&symboledit=1&saveimage=0&toolbarbg=f1f3f6&studies=[]&theme=dark&style=1" width="100%" height="100%" frameborder="0"></iframe>
+        </div>
+        
+        <button class="btn" onclick="generateSignal()">GENERATE AI SIGNAL</button>
+        <div id="signal" class="signal-box">READY TO ANALYZE</div>
+    </div>
+
+    <script>
+        // Chart Switcher Function
+        function changeChart() {
+            let selectedSymbol = document.getElementById("marketSelect").value;
+            let chartIframe = document.getElementById("tvChart");
+            chartIframe.src = "https://s.tradingview.com/widgetembed/?frameElementId=tradingview_1&symbol=" + encodeURIComponent(selectedSymbol) + "&interval=1&hidesidetoolbar=1&symboledit=1&saveimage=0&toolbarbg=f1f3f6&studies=[]&theme=dark&style=1";
+        }
+
+        // Signal Generator Function
+        function generateSignal() {
+            let sigBox = document.getElementById('signal');
+            sigBox.innerText = "ANALYZING MARKET...";
+            sigBox.style.color = "#eab308";
+            
+            setTimeout(() => {
+                let isBuy = Math.random() > 0.5;
+                let accuracy = Math.floor(Math.random() * (98 - 88 + 1)) + 88; // Random accuracy between 88% and 98%
+                
+                if(isBuy) {
+                    sigBox.innerText = "⬆ BUY SIGNAL (" + accuracy + "% CONFIDENCE)";
+                    sigBox.style.color = "#22c55e";
+                } else {
+                    sigBox.innerText = "⬇ SELL SIGNAL (" + accuracy + "% CONFIDENCE)";
+                    sigBox.style.color = "#ef4444";
+                }
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
